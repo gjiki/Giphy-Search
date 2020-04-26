@@ -50,7 +50,11 @@ function addSearch(searchValue) {
 
 function removeSearch(id) {
     let elem = document.getElementById(id);
-    elem.parentNode.removeChild(elem);
+    if (elem != null) {
+        if (elem.parentNode != null) {
+            elem.parentNode.removeChild(elem);
+        }
+    }
 }
 
 function addToStorage(searchValue) {
