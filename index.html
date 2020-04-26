@@ -4,7 +4,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./style.css">
-    <script type="module" src="script.js"></script>
+    <script src="./script.js"></script>
     <title>War Pig</title>
 </head>
 
@@ -18,8 +18,8 @@
                 </div>
                 <div class="search">
                     <input type="text" id="search-input" class="search-in">
-                    <button onclick="search()" class="btn submit-btn">Submit</button>
-                    <button onclick="search()" class="btn trending-btn">See what 's trending</button>
+                    <button onclick="search(this.value)" class="btn submit-btn" value="search">Submit</button>
+                    <button onclick="search(this.value)" class="btn trending-btn" value="trend">See what 's trending</button>
                 </div>
             </div>
         </div>

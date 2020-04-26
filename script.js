@@ -1,5 +1,7 @@
-import * as CONFIG from "./config.js";
-import { GiphyDriver } from "./giphy-driver.js";
+const URL = "https://api.giphy.com/v1/gifs/search?";
+const TRENDING_URL = "https://api.giphy.com/v1/gifs/trending?";
+const KEY = "aFFKTuSMjd6j0wwjpFCPXZipQbcnw3vB";
+const DEFAULT_SEARCHS = ["Internet Cats", "Meme's", "Typing", "Space", "Rick and Morty"];
 
 function loadSearchs(history) {
     if (history != null) {
@@ -33,7 +35,7 @@ function addSearch(searchValue) {
     btn.setAttribute("id", searchValue);
     div.appendChild(btn);
 
-    let ind = CONFIG.DEFAULT_SEARCHS.indexOf(searchValue);
+    let ind = DEFAULT_SEARCHS.indexOf(searchValue);
     if (ind < 0) {
         let x_btn = document.createElement("button");
         x_btn.setAttribute("class", "btn delete-button");
@@ -76,7 +78,7 @@ function loadHistory() {
     let history_div = document.getElementById("history-div");
     history_div.innerHTML = "";
 
-    let defaults = CONFIG.DEFAULT_SEARCHS;
+    let defaults = DEFAULT_SEARCHS;
     let history = JSON.parse(localStorage.getItem('history'));
 
     if (history != null) {
@@ -88,14 +90,49 @@ function loadHistory() {
     }
 }
 
-function search() {
-    let g = new GiphyDriver();
-    g.getGifs();
+function search(value) {
+    let gifs_div = document.getElementById("gifs-div");
+    gifs_div.innerHTML = "";
+    if (value == "search") {
+        let searchValue = document.getElementById("search-input").value;
+        addButton(searchValue);
+        getGifs(true);
+    } else {
+        getGifs(false);
+    }
 }
 
-loadHistory();
+window.onload = function() {
+    // For debugging : localStorage.clear();
+    loadHistory();
+};
 
-/*
-<input type="button" onclick="search()" class="btn submit-btn" value="Submit">
-<input type="button" onclick="search()" class="btn trending-btn" value="See what 's trending">
-*/
+function getGifs(value) {
+    let giphyAPI = "";
+    if (value == true) {
+        const searchValue = document.getElementById("search-input").value;
+        giphyAPI = URL + "q=" + searchValue + "&api_key=" + KEY;
+    } else {
+        giphyAPI = TRENDING_URL + "&api_key=" + KEY;
+    }
+
+    fetch(giphyAPI)
+        .then(response => {
+            return response.json();
+        })
+        .then(json => {
+            let gifsDiv = document.getElementById("gifs-div");
+            for (let i = 0; i < json.data.length; i++) {
+                let gifDiv = document.createElement("div");
+                gifDiv.setAttribute("class", "gif-div-item");
+
+                gifsDiv.appendChild(gifDiv);
+                let curUrl = json.data[i].images.original.url;
+                let width = json.data[i].images.fixed_height_small_still.width;
+
+                gifDiv.innerHTML = '<img src="' + curUrl + '">';
+                gifDiv.style = "width:" + width + ";";
+            }
+        })
+        .catch(err => console.log(err));
+}
