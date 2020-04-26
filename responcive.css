@@ -1,1 +1,21 @@
 @import url("style.css");
+@media all and (max-width: 1200px) {
+    .container {
+        width: 100%;
+        align-items: center;
+    }
+    .gif-container {
+        width: 100%;
+        align-items: center;
+    }
+    .result-gifs {
+        justify-content: space-around;
+    }
+}
+
+@media all and (max-width: 560px) {
+    .result-gifs {
+        justify-content: space-around;
+        flex-direction: column;
+    }
+}

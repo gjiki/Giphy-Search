@@ -30,20 +30,24 @@
 }
 
 .search-items {
+    /*
+    if we want head in center
     width: 100%;
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
     justify-content: space-around;
-    align-items: center;
+    */
 }
 
 .history {
+    /*
+    if we want head in center
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: space-around;
-    align-items: center;
+    align-items: center;*/
 }
 
 input {
